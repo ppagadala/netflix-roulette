@@ -1,0 +1,17 @@
+.App-footer
+{
+    color: #f65261;
+    background-color: #424242;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%
+  }
+  
+  
+.App-footer span
+{
+    font-size: 20px;
+}
