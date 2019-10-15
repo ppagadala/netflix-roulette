@@ -3,8 +3,8 @@ import './MoviesFound.css';
 
 const MoviesFound = (props) => {
     let result;
-    if(props.moviesFound){
-        result = <span className="float-left">{props.moviesFound} movies found</span>
+    if(props.numberOfMoviesFound){
+        result = <span className="float-left">{props.numberOfMoviesFound} movies found</span>
     }else{
         result = null;
     }

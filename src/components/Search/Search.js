@@ -2,8 +2,9 @@ import React from 'react';
 import './Search.css';
 
 const Search = (props) => {
+    const {change:changeHandler} = props;
     return (        
-        <input name="search" placeholder="Search by Name" className="margin-5"/>        
+        <input name="search" placeholder="Search by Name" onChange={ (e) => changeHandler(e)} className="margin-5"/>        
     )
 };
 

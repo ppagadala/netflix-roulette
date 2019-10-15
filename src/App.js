@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import './App.css';
 import SearchContainer from './containers/SearchContainer/SearchContainer';
 import FilterContainer from './containers/FilterContainer/FilterContainer';
+import ResultsContainer from './containers/ResultsContainer/ResultsContainer';
 import FooterContainer from './containers/FooterContainer/FooterContainer';
 import Search from './components/Search/Search';
 import SearchButton from './components/SearchButton/SearchButton';
@@ -9,11 +10,10 @@ import Footer from './components/Footer/Footer';
 import SearchBy from './components/SearchBy/SearchBy';
 import MoviesFound from './components/MoviesFound/MoviesFound';
 import SortBy from './components/SortBy/SortBy';
-import ResultsContainer from './containers/ResultsContainer/ResultsContainer';
 
 class App extends Component{
 
-  state = {movies:[]};
+  state = {movies:[],filteredMovies:[],searchBy:'title'};
 
   componentDidMount(){
 
@@ -27,8 +27,54 @@ class App extends Component{
     })
     .catch(error => {
       console.log('Looks like there was a problem: \n', error);
-    });
-    
+    }); 
+  }
+
+  onChangehandler = (event) => {
+    this.searchString = event.target.value;
+    this.filterResultsByStringIncludes(this.searchString,this.state.searchBy);
+  }
+  onSearchHandler = (e) => {
+    this.filterResultsByStringIncludes(this.searchString,this.state.searchBy);
+  };
+  onSearchByHandler = (event) =>{
+    this.setState({
+      searchBy:event.target.value
+    })
+  }
+  onSortByHandler= (event) =>{
+    this.sortResultsByCriteria(event.target.value)
+  }
+  filterResultsByStringIncludes(string,key){
+    let arr;    
+    if(string && string.length > 0){
+      arr = this.state.movies.filter(movie => movie[key] && movie[key].toLowerCase().includes(string.toLowerCase()));
+    }else{
+      arr = this.state.movies;
+    }    
+    this.setState({
+      filteredMovies:arr
+    })
+  }
+  sortResultsByCriteria(criteria){
+    let arr = [];
+    const compartFunction = (a,b,key) =>{
+      if (a[key] < b[key]) {
+        return -1;
+      }
+      if (a[key] > b[key]) {
+        return 1;
+      }        
+      return 0;
+    }
+    if(criteria ==='date'){
+     arr = this.state.filteredMovies.sort((a,b) => compartFunction(a,b,'release_date')); 
+    }else if(criteria === 'rating'){
+      arr = this.state.filteredMovies.sort((a,b) => compartFunction(a,b,'vote_average'));
+    }
+    this.setState({
+      filteredMovies:arr
+    })
   }
   render(){
     return (
@@ -37,20 +83,18 @@ class App extends Component{
           <h2 style={{color:'#f65261'}}>netflix</h2>
           <span style={{color:'#f65261'}}>roulette</span>
           <h3>FIND YOUR MOVIE</h3>
-          <Search></Search>
-          <SearchButton></SearchButton>
-          <SearchBy></SearchBy>
+          <Search change={this.onChangehandler}></Search>
+          <SearchButton search={this.onSearchHandler}></SearchButton>
+          <SearchBy searchBy={this.onSearchByHandler}></SearchBy>
         </SearchContainer>      
 
         <FilterContainer>
-          <MoviesFound moviesFound="0"></MoviesFound>
-          <SortBy></SortBy>
+          <MoviesFound numberOfMoviesFound={this.state.filteredMovies.length}></MoviesFound>
+          <SortBy sortBy={this.onSortByHandler}></SortBy>
         </FilterContainer>
 
-        <ResultsContainer>
-
-        </ResultsContainer>
-
+       <ResultsContainer movies={this.state.filteredMovies}></ResultsContainer>    
+            
         <FooterContainer>
           <Footer/>
         </FooterContainer>
