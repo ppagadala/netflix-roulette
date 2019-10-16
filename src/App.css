@@ -31,7 +31,12 @@ h1,h2,h3,p,span{
   flex-wrap: wrap;
 }
 
-
+ button:active{
+   background-color: blue;
+ }
+ button:focus{
+  background-color: blue;
+ }
 
 
 
