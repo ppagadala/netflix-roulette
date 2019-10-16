@@ -32,10 +32,10 @@ h1,h2,h3,p,span{
 }
 
  button:active{
-   background-color: blue;
+   background-color: #f65261;
  }
  button:focus{
-  background-color: blue;
+  background-color: #f65261;
  }
 
 

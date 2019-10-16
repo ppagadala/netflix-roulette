@@ -7,6 +7,7 @@ import FilterContainer from '../../containers/FilterContainer/FilterContainer';
 import MoviesFound from '../MoviesFound/MoviesFound';
 import SortBy from '../SortBy/SortBy';
 import ResultsContainer from '../../containers/ResultsContainer/ResultsContainer';
+import { element } from 'prop-types';
 
 
 
@@ -45,7 +46,18 @@ class Home extends Component{
   filterResultsByStringIncludes(string,key){
     let arr;    
     if(string && string.length > 0){
-      arr = this.state.movies.filter(movie => movie[key] && movie[key].toLowerCase().includes(string.toLowerCase()));
+      arr = this.state.movies.filter(movie => {
+        if(Array.isArray(movie[key])){
+            let index = movie[key].findIndex(element =>{
+                return element.toLowerCase().includes(string.toLowerCase())
+            });
+            if(index >= 0){
+                return true;
+            }
+        }else{
+            return movie[key] && movie[key].toLowerCase().includes(string.toLowerCase());
+        }        
+      });
     }else{
       arr = this.state.movies;
     }    
