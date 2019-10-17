@@ -12,16 +12,16 @@ import { element } from 'prop-types';
 
 
 class Home extends Component{
-  state = {movies:[],filteredMovies:[],searchBy:'title'}; 
+  state = {movies:[],filteredMovies:[],searchBy:'title',sortBy:''}; 
   
   componentDidMount(){
     fetch('https://reactjs-cdp.herokuapp.com/movies')
     .then(res => res.json())
-    .then(data => {
+    .then(data => {      
       this.setState({
         movies:data.data,
         filteredMovies:data.data
-      });
+      });      
     })
     .catch(error => {
       console.log('Looks like there was a problem: \n', error);
@@ -41,6 +41,9 @@ class Home extends Component{
     })
   }
   onSortByHandler= (event) =>{
+    this.setState({
+        sortBy:event.target.value
+    })
     this.sortResultsByCriteria(event.target.value)
   }
   filterResultsByStringIncludes(string,key){
@@ -85,19 +88,19 @@ class Home extends Component{
       filteredMovies:arr
     })
   }
-  render(){
+  render(){       
     return (
-      <>
+      <>      
         <SearchContainer>          
           <h3>FIND YOUR MOVIE</h3>
           <Search change={this.onChangehandler}></Search>
           <SearchButton search={this.onSearchHandler}></SearchButton>
-          <SearchBy searchBy={this.onSearchByHandler}></SearchBy>
+          <SearchBy searchBy={this.onSearchByHandler} searchByProp={this.state.searchBy}></SearchBy>
         </SearchContainer>      
 
         <FilterContainer>
           <MoviesFound numberOfMoviesFound={this.state.filteredMovies.length}></MoviesFound>
-          <SortBy sortBy={this.onSortByHandler}></SortBy>
+          <SortBy sortBy={this.onSortByHandler} sortByProp={this.state.sortBy}></SortBy>
         </FilterContainer>
 
        <ResultsContainer movies={this.state.filteredMovies}></ResultsContainer>                

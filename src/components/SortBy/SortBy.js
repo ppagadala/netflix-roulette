@@ -6,8 +6,8 @@ const SortBy = (props) => {
     return (
         <span className="float-right">
             <span className="margin-5">SORT BY</span>        
-            <button onClick={(e) => sortByHandler(e)} value="date">RELEASE DATE</button>
-            <button onClick={(e) => sortByHandler(e)} value="rating">RATING</button>
+            <button className={props.sortByProp ==='date' ? 'button-active' : ''} onClick={(e) => sortByHandler(e)} value="date">RELEASE DATE</button>
+            <button className={props.sortByProp ==='rating' ? 'button-active' : ''} onClick={(e) => sortByHandler(e)} value="rating">RATING</button>
         </span>
     )
 };

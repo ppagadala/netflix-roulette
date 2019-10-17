@@ -6,8 +6,8 @@ const SearchBy = (props) => {
     return (
         <div className="margin-10">
         <span className="margin-5">SEARCH BY</span>        
-        <button onClick={(e) => searchByHandler(e)} value="title">Title</button>
-        <button onClick={(e) => searchByHandler(e)} value="genres">Genre</button>
+        <button className={props.searchByProp==='title' ? 'button-active' : '' } onClick={(e) => searchByHandler(e)} value="title">Title</button>
+        <button className={props.searchByProp==='genres' ? 'button-active' : '' } onClick={(e) => searchByHandler(e)} value="genres">Genre</button>
         </div>
     )
 };
