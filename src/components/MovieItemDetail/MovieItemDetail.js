@@ -19,18 +19,18 @@ const MovieItemDetail = (props) => {
                     <h2>
                         {movie.title}
                     </h2>
-                    <span style={{margin:'0px 50px'}}>
+                    <span className={'rating'}>
                         {movie.vote_average}
                     </span>
                     <p>
                         {movie.genres && movie.genres.join(',')}
                     </p>
                     <p>
-                        <span className="margin-20">
+                        <span style={{margin:'20px 0px',color:'#f65251'}}>
                             {movie.release_date ? new Date(movie.release_date).getFullYear() : '0000'}
                         </span>
-                        <span className="margin-20">
-                            {movie.runtime ? movie.runtime : 0} <span>min</span>
+                        <span className="margin-20" style={{color:'#f65251'}}>
+                            {movie.runtime ? movie.runtime : 0} <span style={{color:'#f65251'}}>min</span>
                         </span>
                     </p>
                     <p>

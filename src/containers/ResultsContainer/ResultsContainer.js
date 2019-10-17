@@ -16,7 +16,7 @@ const ResultsContainer = (props) => {
                             <MovieItem movie={movie}/>
                         </Link>
                 })               
-            : <h3>No Films found</h3>
+            : <h3 style={{margin: 'auto'}}>No Films found</h3>
           }                 
             {props.children}
         </div>

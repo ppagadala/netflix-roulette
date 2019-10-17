@@ -98,10 +98,14 @@ class Home extends Component{
           <SearchBy searchBy={this.onSearchByHandler} searchByProp={this.state.searchBy}></SearchBy>
         </SearchContainer>      
 
-        <FilterContainer>
-          <MoviesFound numberOfMoviesFound={this.state.filteredMovies.length}></MoviesFound>
-          <SortBy sortBy={this.onSortByHandler} sortByProp={this.state.sortBy}></SortBy>
-        </FilterContainer>
+       {
+            this.state.filteredMovies && this.state.filteredMovies.length > 0 ?
+            <FilterContainer>
+                <MoviesFound numberOfMoviesFound={this.state.filteredMovies.length}></MoviesFound>
+                <SortBy sortBy={this.onSortByHandler} sortByProp={this.state.sortBy}></SortBy>
+            </FilterContainer>
+            : null
+       } 
 
        <ResultsContainer movies={this.state.filteredMovies}></ResultsContainer>                
       </>

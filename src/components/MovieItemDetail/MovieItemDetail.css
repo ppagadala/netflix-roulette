@@ -1,1 +1,6 @@
- 
+ .rating{
+    margin: 0px 30px;
+    border: white solid 1px;
+    border-radius: 30px;
+    padding: 10px;
+ }
