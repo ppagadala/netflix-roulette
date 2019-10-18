@@ -1,14 +1,13 @@
-import React from 'react';
+import React from "react";
+import "./MoviesBySpecificGenre.css";
 import {Link} from 'react-router-dom';
-import './ResultsContainer.css';
-import MovieItem from '../../components/MovieItem/MovieItem';
+import MovieItem from "../MovieItem/MovieItem";
 
-
-const ResultsContainer = (props) => {    
+function MoviesBySpecificGenre(props){
     const {movies} = props;
-    return (
-        <div className="flex-container resultsBgColor" style={{minHeight:'500px'}}>
-            {   
+    return(
+        <div className="flex-container" style={{minHeight:'500px'}}>
+            {
                 movies && movies.length > 0
                 ? movies.map(movie => { 
                     let link =`/movies/${movie.id}`
@@ -17,10 +16,10 @@ const ResultsContainer = (props) => {
                             </Link>
                     })               
                 : <h3 style={{margin: 'auto'}}>No Films found</h3>
-            }                 
-            {props.children}
+            }            
         </div>
+        
     )
 }
 
-export default ResultsContainer;
+export default MoviesBySpecificGenre;

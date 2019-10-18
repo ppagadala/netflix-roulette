@@ -2,25 +2,31 @@ import {GET_ALL_MOVIES,GET_MOVIE_DETAILS,UPDATE_FILTERED_MOVIES} from "../consta
 const state = {
     movies:[],
     filteredMovies:[],
-    movieDetails:undefined
+    movieDetails:undefined,
+    filteredMoviesBySpecificGenre:[]
 }
 function appReducer(state,action){
     switch(action.type){
         case GET_ALL_MOVIES:{
-            const newState = Object.assign({},state,{movies:action.payload});
-            return newState
-            break;
-        }
-            
+            state = {...state,movies:action.payload}            
+            return state;            
+        }            
         case UPDATE_FILTERED_MOVIES:{
-            const newState = Object.assign({},state,{filteredMovies:action.payload});
-            return newState
-            break;    
+            state = {...state,filteredMovies:action.payload};
+            return state;                
         }
         case GET_MOVIE_DETAILS:{
-            const newState = Object.assign({},state,{movieDetails:action.payload});
-            return newState
-            break;    
+            let filteredMoviesBySpecificGenre = [];
+            if(state.movies){
+                filteredMoviesBySpecificGenre = state.movies.filter(movie => {            
+                    let matchedGeneres = movie['genres'].map(element =>{
+                        return action.payload.genres.includes(element)
+                    });
+                    return matchedGeneres.includes(true);
+                });
+            }            
+            state = {...state,movieDetails:action.payload,filteredMoviesBySpecificGenre:filteredMoviesBySpecificGenre};            
+            return state;            
         }
             
         default:
