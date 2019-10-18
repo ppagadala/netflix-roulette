@@ -7,26 +7,17 @@ import FilterContainer from '../../containers/FilterContainer/FilterContainer';
 import MoviesFound from '../MoviesFound/MoviesFound';
 import SortBy from '../SortBy/SortBy';
 import ResultsContainer from '../../containers/ResultsContainer/ResultsContainer';
-import { element } from 'prop-types';
+import { connect } from "react-redux";
+import { getAllMovies,updateFilteredMovies } from '../../actions/actons';
 
 
 
 class Home extends Component{
-  state = {movies:[],filteredMovies:[],searchBy:'title',sortBy:''}; 
+  state = {searchBy:'title',sortBy:''}; 
   
   componentDidMount(){
-    fetch('https://reactjs-cdp.herokuapp.com/movies')
-    .then(res => res.json())
-    .then(data => {      
-      this.setState({
-        movies:data.data,
-        filteredMovies:data.data
-      });      
-    })
-    .catch(error => {
-      console.log('Looks like there was a problem: \n', error);
-    }); 
-  }
+    this.props.getMovies();
+  }  
 
   onChangehandler = (event) => {
     this.searchString = event.target.value;
@@ -49,7 +40,7 @@ class Home extends Component{
   filterResultsByStringIncludes(string,key){
     let arr;    
     if(string && string.length > 0){
-      arr = this.state.movies.filter(movie => {
+      arr = this.props.movies.filter(movie => {
         if(Array.isArray(movie[key])){
             let index = movie[key].findIndex(element =>{
                 return element.toLowerCase().includes(string.toLowerCase())
@@ -62,11 +53,9 @@ class Home extends Component{
         }        
       });
     }else{
-      arr = this.state.movies;
-    }    
-    this.setState({
-      filteredMovies:arr
-    })
+      arr = this.props.movies;
+    }        
+    this.props.updateFilteredMovies(arr);
   }
   sortResultsByCriteria(criteria){
     let arr = [];
@@ -80,15 +69,14 @@ class Home extends Component{
       return 0;
     }
     if(criteria ==='date'){
-     arr = this.state.filteredMovies.sort((a,b) => compartFunction(a,b,'release_date')); 
+     arr = this.props.filteredMovies.sort((a,b) => compartFunction(a,b,'release_date')); 
     }else if(criteria === 'rating'){
-      arr = this.state.filteredMovies.sort((a,b) => compartFunction(a,b,'vote_average'));
-    }
-    this.setState({
-      filteredMovies:arr
-    })
+      arr = this.props.filteredMovies.sort((a,b) => compartFunction(a,b,'vote_average'));
+    }    
+    this.props.updateFilteredMovies(arr);
   }
-  render(){       
+  render(){
+     console.log('render',this.props)        
     return (
       <>      
         <SearchContainer>          
@@ -99,18 +87,33 @@ class Home extends Component{
         </SearchContainer>      
 
        {
-            this.state.filteredMovies && this.state.filteredMovies.length > 0 ?
+            this.props.filteredMovies && this.props.filteredMovies.length > 0 ?
             <FilterContainer>
-                <MoviesFound numberOfMoviesFound={this.state.filteredMovies.length}></MoviesFound>
+                <MoviesFound numberOfMoviesFound={this.props.filteredMovies.length}></MoviesFound>
                 <SortBy sortBy={this.onSortByHandler} sortByProp={this.state.sortBy}></SortBy>
             </FilterContainer>
             : null
        } 
 
-       <ResultsContainer movies={this.state.filteredMovies}></ResultsContainer>                
+       <ResultsContainer movies={this.props.filteredMovies}></ResultsContainer>                
       </>
     )
   }
 }
 
-export default Home;
+const mapStateToProps = (state, ownProps) => {
+    console.log('mapStateToProps',state);
+    return {
+        movies : state.movies,
+        filteredMovies : state.filteredMovies
+    }
+};
+  
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getMovies: () => getAllMovies(dispatch),
+        updateFilteredMovies : (data) => updateFilteredMovies(dispatch,data)
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Home);

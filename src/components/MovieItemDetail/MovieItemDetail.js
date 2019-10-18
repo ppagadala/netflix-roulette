@@ -1,11 +1,21 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import './MovieItemDetail.css';
+import { connect } from "react-redux";
+
+
+const mapStateToProps = (state, ownProps) => ({
+    // ... computed data from state and optionally ownProps
+})
+  
+const mapDispatchToProps = {
+    // ... normally is an object full of action creators
+}
 
 const MovieItemDetail = (props) => {
-    const {movie} = props;
+    const {movie} = props;    
     return (
-        <>
+        <div className="movieItemDetailBgColor">
             <div>
                 <Link to='/movies'>
                     <button className="margin-20" style={{float:'right'}}>Back to Movies</button>
@@ -38,9 +48,9 @@ const MovieItemDetail = (props) => {
                     </p>
                 </div>            
             </div>
-        </>
+        </div>
                         
     );
 }
 
-export default MovieItemDetail;
+export default connect(mapStateToProps,mapDispatchToProps)(MovieItemDetail);

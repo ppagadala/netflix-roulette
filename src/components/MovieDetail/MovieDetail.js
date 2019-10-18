@@ -1,34 +1,40 @@
 import React,{Component} from 'react';
-import {useParams} from 'react-router-dom';
 import './MovieDetail.css'
 import MovieItemDetail from '../MovieItemDetail/MovieItemDetail';
+import { connect } from "react-redux";
+import { getMoviesDetails } from "../../actions/actons";
 
 class MovieDetail extends Component{    
     constructor(props){
-        super(props);
-        this.state = {movieDetails:{}};        
+        super(props);                
     }
      componentDidMount(){        
-         let movieId = this.props.match.params.movieId;
-        fetch(`https://reactjs-cdp.herokuapp.com/movies/${movieId}`)
-        .then(res => res.json())
-        .then(data => {            
-            this.setState({
-                movieDetails:data
-            })
-        })
-        .catch(error => {
-            console.log('Looks like there was a problem: \n', error);
-        }); 
+        let movieId = this.props.match.params.movieId;
+        this.props.getMoviesDetails(movieId);
     } 
 
     render(){        
         return(
-            <div className="movieDetailBackground">
-                <MovieItemDetail movie={this.state.movieDetails}></MovieItemDetail>
-            </div>
+            <>
+                {
+                    this.props.movieDetails ?     <MovieItemDetail movie={this.props.movieDetails}></MovieItemDetail> : null
+                }
+                
+            </>
         )
     }
 }
 
-export default MovieDetail;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        movieDetails : state.movieDetails 
+    }
+}
+  
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getMoviesDetails : (movieId) => getMoviesDetails(dispatch,movieId)
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(MovieDetail);

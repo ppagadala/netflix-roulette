@@ -12,7 +12,7 @@ const ResultsContainer = (props) => {
             movies && movies.length > 0
             ? movies.map(movie => { 
                 let link =`/movies/${movie.id}`
-                return <Link to={link} key={movie.id}>
+                return <Link to={link} key={movie.id} style={{ textDecoration: 'none' }}>
                             <MovieItem movie={movie}/>
                         </Link>
                 })               
