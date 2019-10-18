@@ -9,7 +9,13 @@ class MovieDetail extends Component{
      componentDidMount(){        
         let movieId = this.props.match.params.movieId;
         this.props.getMovieDetails(movieId);        
-    }  
+    } 
+    
+    componentDidUpdate(previousProps){
+        if(previousProps.match.params.movieId !== this.props.match.params.movieId){
+            this.props.getMovieDetails(this.props.match.params.movieId);
+        }
+    }
     
 
     render(){              

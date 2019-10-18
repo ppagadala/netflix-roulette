@@ -75,8 +75,7 @@ class Home extends Component{
     }    
     this.props.updateFilteredMovies(arr);
   }
-  render(){
-     console.log('render',this.props)        
+  render(){             
     return (
       <>      
         <SearchContainer>          
@@ -101,8 +100,7 @@ class Home extends Component{
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    console.log('mapStateToProps',state);
+const mapStateToProps = (state, ownProps) => {    
     return {
         movies : state.movies,
         filteredMovies : state.filteredMovies
