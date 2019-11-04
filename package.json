@@ -2,9 +2,7 @@
   "name": "netflix-roulette",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@epam/uui": "^3.24.4",
-    "@epam/uui-components": "^3.24.4",
+  "dependencies": {    
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-redux": "^7.1.1",
